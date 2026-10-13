@@ -6,16 +6,20 @@
     --muted: #6b6b6b;
     --accent: #ffb000;
     --shadow: #1a1a1a;
+    --bezel: #0a84ff;
+    --bezel-border: #003d99;
 }
 
 [data-theme="dark"] {
-    --bg: #14141a;
-    --surface:#1e1e26;
-    --border: #e8e8e8;
-    --text: #e8e8e8;
-    --muted: #8a8a96;
-    --accent: #ffb000;
-    --shadow: #000000;
+  --bg: #0d0d12;
+  --surface: #1a1a22;
+  --border: #d8d8e0;
+  --text: #e8e8e8;
+  --muted: #8a8a96;
+  --accent: #ffb000;
+  --shadow: rgba(255, 0, 0, 0.884);
+  --bezel: #0a84ff;
+  --bezel-border: #8a8a9e;
 }
 
 * {

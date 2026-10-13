@@ -104,15 +104,19 @@ body.editor {
 
 .pencil {
     position: absolute;
-    top: 8px;
+    top: 2px;
     right: 8px;
     width: 28px;
     height: 28px;
     padding: 0;
-    font-size: 14px;
-    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: 2px 2px 0 var(--shadow);
     background: var(--surface);
+    color: var(--text);
+    border: 2px solid var(--border);
+    cursor: pointer;
 }
 
 .rocket {
@@ -135,17 +139,16 @@ body.editor {
 }
 
 .bezel {
-    background: #2a2a2a;
+    position: relative;
+    background : var(--bezel);
     border: 3px solid var(--border);
     box-shadow: 6px 6px 0 var(--shadow);
-    padding: 14px;
+    padding: 34px 14px 14px 14px ;
 }
 
 .glass {
-    position: relative;
-    background: #000;
-    border: 2px solid #0a0a0a;
-    padding: 6px;
+    display: block;
+    line-height: 0;
 }
 
 .glass canvas {
@@ -155,4 +158,5 @@ body.editor {
     image-rendering: pixelated;
     cursor: crosshair;
     touch-action: none;
+    background: #000
 }
