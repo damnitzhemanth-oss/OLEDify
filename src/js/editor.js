@@ -3,6 +3,8 @@ import {createBitmap,getPixel,setPixel,clearBitmap} from './bitmap.js';
 import {paint} from './render.js';
 import {screens} from './screens.js';
 import * as storage from './storage.js';
+import { pinoutFor, boards } from './pins.js';
+import { renderWires } from './wires.js';
 
 initThemeToggle();
 
@@ -19,6 +21,7 @@ const ZOOM = 4;
 
 const state = {
     screenId: screens[0].id,
+    boardId: 'uno',
     bitmaps: {},
 };
 
@@ -71,12 +74,33 @@ function persist() {
 function render() {
     const s = activeScreen();
     const bmp = activeBitmap();
+    const pins = pinoutFor(state.boardId);
+    const board = boards[state.boardId];
 
-    canvas.style.width = s.width*ZOOM + 'px';
-    canvas.style.height = s.height*ZOOM + 'px';
+    canvas.style.width = s.width * ZOOM + 'px';
+    canvas.style.height = s.height * ZOOM + 'px';
 
     screenName.textContent = s.label;
-    paint(canvas,bmp);
+    paint(canvas, bmp);
+
+    renderWires(document.getElementById('wires'), pins);
+
+    document.getElementById('boardName').textContent = board.label;
+    document.getElementById('displayName').textContent = s.label;
+    document.getElementById('displayBus').textContent = `I2C · ${pins.length} wires`;
+
+    const list = document.getElementById('pinList');
+    list.innerHTML = '';
+    for (const pin of pins) {
+        const row = document.createElement('div');
+        row.className = 'pin-row';
+        row.innerHTML =
+            `<span class="pin-dot pin-${pin.id}"></span>` +
+            `<span>${pin.label}</span>` +
+            `<span class="pin-arrow">→</span>` +
+            `<span class="pin-target">${pin.target}</span>`;
+        list.appendChild(row);
+    }
 }
 
 function setScreen(id) {

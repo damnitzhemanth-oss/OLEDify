@@ -55,13 +55,24 @@
      </div>
     </section>
 
-     <aside class="panel right">
-       <h2>Setup</h2>
-       <div class="panel-body" id="rightPanel">
-         <p class="placeholder">microcontroller goes here</p>
-       </div>
-     </aside>
-
+    <aside class="panel right">
+  <h2>Setup</h2>
+  <div class="panel-body" id="rightPanel">
+    <div class="setup-section">
+      <div class="setup-label">Board</div>
+      <div class="setup-value" id="boardName">Arduino Uno</div>
+    </div>
+    <div class="setup-section">
+      <div class="setup-label">Display</div>
+      <div class="setup-value" id="displayName">SSD1306 128x64</div>
+      <div class="setup-hint" id="displayBus">I2C &middot; 4 wires</div>
+    </div>
+    <div class="setup-section">
+      <div class="setup-label">Connections</div>
+      <div class="pin-list" id="pinList"></div>
+    </div>
+  </div>
+    </aside>
     </main>
 
     <button class="rocket" id="rocket" aria-label="reveal microcontroller">

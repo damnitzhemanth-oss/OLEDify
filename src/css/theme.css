@@ -8,6 +8,10 @@
     --shadow: #1a1a1a;
     --bezel: #0a84ff;
     --bezel-border: #003d99;
+    --wire-gnd: #1a1a1a;
+    --wire-vcc: #e63946;
+    --wire-scl: #d97706;
+    --wire-sda: #0077b6;
 }
 
 [data-theme="dark"] {
@@ -20,6 +24,10 @@
   --shadow: rgba(255, 0, 0, 0.884);
   --bezel: #0a84ff;
   --bezel-border: #8a8a9e;
+  --wire-gnd: #c8c8d0;
+  --wire-vcc: #ff6b6b;
+  --wire-scl: #ffb000;
+  --wire-sda: #4ea8de;
 }
 
 * {
