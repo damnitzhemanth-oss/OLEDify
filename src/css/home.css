@@ -1,0 +1,39 @@
+.home {
+    min-height: 100vh ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    padding: 40px 20px;
+}
+
+.wordmark {
+    font-size: 64px;
+    letter-spacing: 4px;
+    font-weight: 700;
+}
+
+.tagline {
+    color:var(--muted);
+    letter-spacing: 1px;
+}
+
+.actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+}
+
+.credit a {
+    border-bottom: 1px solid var(--muted);
+}
+
+.theme-toggle {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    font-size: 14px;
+    padding: 6px 12px;
+    box-shadow: 3px 3px 0 var(--shadow);
+}

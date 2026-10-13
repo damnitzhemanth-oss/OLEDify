@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width", initial-scale="1">
+        <title>OLEDify</title>
+        <link rel="stylesheet" href="/src/css/theme.css">
+        <link rel="stylesheet" href="/src/css/home.css">
+
+        <script>
+            const saved = localStorage.getItem('oledify-theme');
+            if (saved) document.documentElement.dataset.theme = saved;
+            else if (matchMedia('(prefers-color-scheme:dark)'.matches)) document.documentElement.dataset.theme = 'dark';
+        </script>
+
+    </head>
+
+    <body>
+
+    <main class="home">
+        <h1 class="wordmark">OLEDify</h1>
+        <p class="tagline">draw it, wire it!</p>
+
+        <div class="actions">
+            <a class="btn" href="/editor.html">Open Editor</a>
+            <a class="btn" href="https://github.com/damnitzhemanth-oss/OLEDify">Github</a>
+        </div>
+
+        <p class="credit">built by <a href="https://github.com/damnitzhemanth-oss">Hemanth</a></p>
+    </main>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="toggle theme">theme</button>
+     
+    <script type="module" src="/src/js/home.js"></script>
+
+    </body>
+</html>

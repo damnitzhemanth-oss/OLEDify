@@ -1,0 +1,134 @@
+body.editor {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 2px solid var(--border);
+    background: var(--surface);
+}
+
+.brand {
+    font-size: 20px;
+    letter-spacing: 2px;
+    font-weight: 700;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.screen-name {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.them-toggle {
+    font-size: 12px;
+    padding: 4px 10px;
+    box-shadow: 3px 3px 0 var(--shadow)
+}
+
+.workspace {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 280px 1fr 280px;
+    gap: 20px;
+    padding: 20px;
+    min-height: 0;
+}
+
+.panel {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    box-shadow: 4px 4px 0 var(--shadow);
+    display: flex;
+    flex-direction:  column;
+    overflow: hidden;
+}
+
+.panel h2 {
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--border);
+    background: var(--bg);
+}
+
+.panel-body {
+    padding:14px;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.placeholder {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.stage {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 0;
+}
+
+.screen-wrap {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.wires {
+    width: 128px;
+    height: 60px;
+    margin-bottom: -2px;
+}
+
+.glass canvas {
+    display: block;
+    width: 512px;
+    height: 256px;
+    image-rendering: pixelated;
+}
+
+
+.pencil {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    font-size: 14px;
+    line-height: 1;
+    box-shadow: 2px 2px 0 var(--shadow);
+    background: var(--surface);
+}
+
+.rocket {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 56px;
+    padding: 0;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.rocket-body {
+    display: block;
+    line-height: 1;
+}

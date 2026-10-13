@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>OLEDify — editor</title>
+
+    <link rel="stylesheet" href="/src/css/theme.css">
+    <link rel="stylesheet" href="/src/css/editor.css">
+    <script>
+       const saved = localStorage.getItem('oledify-theme');
+       if (saved) document.documentElement.dataset.theme = saved;
+       else if (matchMedia('(prefers-color-scheme: dark)').matches) document.documentElement.dataset.theme = 'dark';
+    </script>
+</head>
+
+<body class="editor">
+
+    <header class="topbar">
+        <a class="brand" href="/">OLEDify</a>
+        <div class="topbar-right">
+           <span class="screen-name" id="screenName">SSD1306 128x64</span>
+           <button class="theme-toggle" id="themeToggle" aria-label="toggle theme">theme</button>
+        </div>
+    </header>
+
+    <main class="workspace">
+
+       <aside class="panel left">
+          <h2>Canvas</h2>
+          <div class="panel-body" id="leftPanel">
+             <p class="placeholder">settings go here</p>
+          </div>
+       </aside>
+
+    <section class="stage">
+       <div class="screen-wrap">
+       <div class="wires" id="wires"></div>
+       <div class="bezel">
+         <div class="glass">
+           <canvas id="screen" width="512" height="256"></canvas>
+           <button class="pencil" id="pencil" aria-label="change screen">✎</button>
+         </div>
+      </div>
+      </div>
+    </section>
+
+     <aside class="panel right">
+       <h2>Setup</h2>
+       <div class="panel-body" id="rightPanel">
+         <p class="placeholder">microcontroller goes here</p>
+       </div>
+     </aside>
+
+    </main>
+
+    <button class="rocket" id="rocket" aria-label="reveal microcontroller">
+      <span class="rocket-body">🚀</span>
+    </button>
+
+    <script type="module" src="/src/js/editor.js"></script>
+</body>
+</html>
