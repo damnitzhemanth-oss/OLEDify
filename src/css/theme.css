@@ -39,14 +39,15 @@ html, body {
 }
 
 button, a.btn {
+    --press: 4px;
     font-family: inherit;
     font-size: inherit;
     background: var(--surface);
     color: var(--text);
     border: 2px solid var(--border);
     padding: 10px 18px;
-    box-shadow: 4px 4px 0 var(--shadow);
-    cursor:P pointer;
+    box-shadow: var(--press) var(--press) 0 var(--shadow);
+    cursor: pointer;
     text-decoration: none;
     display: inline-block;
     transition: transform 0.06s, box-shadow 0.06s;
@@ -58,7 +59,7 @@ button:hover, a.btn:hover {
 }
 
 button:active, a.btn:active {
-    transform: translate(apx,4px);
+    transform: translate(var(--press), var(--press));
     box-shadow: 0 0 0 var(--shadow);
 }
 

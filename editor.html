@@ -30,7 +30,13 @@
        <aside class="panel left">
           <h2>Canvas</h2>
           <div class="panel-body" id="leftPanel">
-             <p class="placeholder">settings go here</p>
+
+            <div class="button-row">
+               <button id="clearBtn">Clear</button>
+               <button id="fillBtn">Fill</button>
+               <button id="invertBtn">Invert</button>
+            </div>
+             
           </div>
        </aside>
 
@@ -63,5 +69,12 @@
     </button>
 
     <script type="module" src="/src/js/editor.js"></script>
+
+<div class="overlay" id="screenPicker">
+  <div class="overlay-card">
+    <h3>Pick a screen</h3>
+    <div class="screen-list" id="screenList"></div>
+  </div>
+</div>
 </body>
 </html>

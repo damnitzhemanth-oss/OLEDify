@@ -31,9 +31,10 @@ body.editor {
 }
 
 .theme-toggle {
+    --press: 3px;
     font-size: 12px;
     padding: 4px 10px;
-    box-shadow: 3px 3px 0 var(--shadow)
+    box-shadow: var(--press) var(--press) 0 var(--shadow);
 }
 
 .workspace {
@@ -103,16 +104,17 @@ body.editor {
 
 
 .pencil {
+    --press: 2px;
     position: absolute;
-    top: 2px;
-    right: 8px;
-    width: 28px;
-    height: 28px;
+    top: 4px;
+    right: 6px;
+    width: 24px;
+    height: 24px;
     padding: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 2px 2px 0 var(--shadow);
+    box-shadow: var(--press) var(--press) 0 var(--shadow);
     background: var(--surface);
     color: var(--text);
     border: 2px solid var(--border);
@@ -140,10 +142,10 @@ body.editor {
 
 .bezel {
     position: relative;
-    background : var(--bezel);
-    border: 3px solid var(--border);
+    background: var(--bezel);
+    border: 3px solid var(--bezel-border);
     box-shadow: 6px 6px 0 var(--shadow);
-    padding: 34px 14px 14px 14px ;
+    padding: 34px 14px 14px 14px;
 }
 
 .glass {
@@ -159,4 +161,68 @@ body.editor {
     cursor: crosshair;
     touch-action: none;
     background: #000
+}
+
+.button-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.button-row button {
+    --press: 2px;
+    flex: 1;
+    min-width: 68px;
+    padding: 8px 10px;
+    font-size: 13px;
+}
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity:0;
+    pointer-events: none;
+    transition: opacity 0.15s;
+    z-index: 20;
+}
+
+.overlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.overlay-card {
+    background: var(--surface);
+    border: 2px solid var(--border);
+    box-shadow: 6px 6px 0 var(--shadow);
+    padding: 20px;
+    min-width: 300px;
+}
+
+.overlay-card h3 {
+    font-size: 13px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.screen-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.screen-option {
+    --press: 2px;
+    text-align: left;
+    padding: 10px 14px;
+}
+
+.screen-option.active {
+    background: var(--accent);
+    color: var(--surface);
 }
