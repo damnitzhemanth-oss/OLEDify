@@ -30,7 +30,7 @@ body.editor {
     font-size: 13px;
 }
 
-.them-toggle {
+.theme-toggle {
     font-size: 12px;
     padding: 4px 10px;
     box-shadow: 3px 3px 0 var(--shadow)
@@ -120,6 +120,7 @@ body.editor {
     bottom: 24px;
     right: 24px;
     width: 56px;
+    height: 56px;
     padding: 0;
     font-size: 24px;
     display: flex;
@@ -131,4 +132,27 @@ body.editor {
 .rocket-body {
     display: block;
     line-height: 1;
+}
+
+.bezel {
+    background: #2a2a2a;
+    border: 3px solid var(--border);
+    box-shadow: 6px 6px 0 var(--shadow);
+    padding: 14px;
+}
+
+.glass {
+    position: relative;
+    background: #000;
+    border: 2px solid #0a0a0a;
+    padding: 6px;
+}
+
+.glass canvas {
+    display: block;
+    width: 512px;
+    height: 256px;
+    image-rendering: pixelated;
+    cursor: crosshair;
+    touch-action: none;
 }
