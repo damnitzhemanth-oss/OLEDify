@@ -21,7 +21,25 @@
         <a class="brand" href="/">OLEDify</a>
         <div class="topbar-right">
            <span class="screen-name" id="screenName">SSD1306 128x64</span>
-           <button class="theme-toggle" id="themeToggle" aria-label="toggle theme">theme</button>
+              <button class="icon-btn" id="fontBtn" aria-label="toggle pixel font">F</button>
+           <button class="theme-toggle" id="themeToggle" aria-label="toggle theme">
+              <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+               <circle cx="8" cy="8" r="3" fill="currentColor"/>
+               <g stroke="currentColor" stroke-width="1.5" stroke-linecap="square">
+                <line x1="8" y1="0.5" x2="8" y2="2.5"/>
+                <line x1="8" y1="13.5" x2="8" y2="15.5"/>
+                <line x1="0.5" y1="8" x2="2.5" y2="8"/>
+                <line x1="13.5" y1="8" x2="15.5" y2="8"/>
+                <line x1="2.7" y1="2.7" x2="4.1" y2="4.1"/>
+                <line x1="11.9" y1="11.9" x2="13.3" y2="13.3"/>
+                <line x1="2.7" y1="13.3" x2="4.1" y2="11.9"/>
+                <line x1="11.9" y1="4.1" x2="13.3" y2="2.7"/>
+               </g>
+             </svg>
+             <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+                <path d="M11 10 A5 5 0 0 1 6 2 A6 6 0 1 0 14 10 A5 5 0 0 1 11 10 Z" fill="currentColor"/>
+             </svg>
+           </button>
         </div>
     </header>
 
@@ -30,31 +48,38 @@
        <aside class="panel left">
           <h2>Canvas</h2>
           <div class="panel-body" id="leftPanel">
-
-            <div class="button-row">
-               <button id="clearBtn">Clear</button>
-               <button id="fillBtn">Fill</button>
-               <button id="invertBtn">Invert</button>
-            </div>
-             
-          </div>
+<div class="button-row">
+  <button id="clearBtn">Clear</button>
+  <button id="fillBtn">Fill</button>
+  <button id="invertBtn">Invert</button>
+</div>
+<div class="button-row">
+  <button id="gridBtn">Grid off</button>
+  <button id="fitBtn">Fit</button>
+</div>
+         </div>
        </aside>
 
-    <section class="stage">
-       <div class="screen-wrap">
-       <div class="wires" id="wires"></div>
-       <div class="bezel">
-           <div class="glass">
-             <canvas id="screen" width="512" height="256"></canvas>
-           </div>
-      <button class="pencil" id="pencil" aria-label="change screen">
-         <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
-         <path d="M10 2 L12 4 L4 12 L1 13 L2 10 Z"/>
-         </svg>
-      </button>
-     </div>
-    </section>
-
+<section class="stage" id="stage">
+  <div class="world" id="world">
+    <div class="screen-wrap">
+      <div class="wires" id="wires"></div>
+      <div class="bezel">
+        <div class="glass">
+          <canvas id="screen" width="512" height="256"></canvas>
+          <div class="grid-overlay" id="gridOverlay">
+            <svg id="gridSvg" width="100%" height="100%"></svg>
+          </div>
+        </div>
+        <button class="pencil" id="pencil" aria-label="change screen">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+            <path d="M10 2 L12 4 L4 12 L1 13 L2 10 Z"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
     <aside class="panel right">
   <h2>Setup</h2>
   <div class="panel-body" id="rightPanel">

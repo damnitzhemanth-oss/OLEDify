@@ -3,7 +3,6 @@ body.editor {
     display: flex;
     flex-direction: column;
 }
-
 .topbar {
     position: relative;
     z-index: 2;
@@ -34,10 +33,20 @@ body.editor {
 
 .theme-toggle {
     --press: 3px;
-    font-size: 12px;
-    padding: 4px 10px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     box-shadow: var(--press) var(--press) 0 var(--shadow);
 }
+
+.theme-toggle .icon-sun { display: block; }
+.theme-toggle .icon-moon { display: none; }
+
+[data-theme="dark"] .theme-toggle .icon-sun { display: none; }
+[data-theme="dark"] .theme-toggle .icon-moon { display: block; }
 
 .workspace {
     flex: 1;
@@ -80,11 +89,26 @@ body.editor {
 .stage {
     position: relative;
     z-index: 3;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     min-height: 0;
+    overflow: hidden;
+    cursor: default;
 }
+
+.world {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-origin: 0 0;
+}
+
+canvas,
+.world,
+.bezel,
+.glass {
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+}
+
 .screen-wrap {
     position: relative;
     display: flex;
@@ -93,9 +117,14 @@ body.editor {
 }
 
 .wires {
-    width: 128px;
-    height: 60px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 100%;
+    height: 200vh;
     margin-bottom: -2px;
+    overflow: hidden;
+    pointer-events: none;
 }
 
 .glass canvas {
@@ -152,6 +181,7 @@ body.editor {
 }
 
 .glass {
+    position: relative;
     display: block;
     line-height: 0;
 }
@@ -164,6 +194,18 @@ body.editor {
     cursor: crosshair;
     touch-action: none;
     background: #000
+}
+
+.grid-overlay {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    display: none;
+}
+
+
+.grid-overlay.on {
+    display: block;
 }
 
 .button-row {
@@ -242,9 +284,11 @@ body.editor {
 }
 
 .wire {
-    stroke-width: 5;
+    pointer-events: auto;
+    stroke-width: 1.5;
     stroke-linecap: square;
     fill: none;
+    cursor: help;
 }
 
 .wire-gnd {stroke: var(--wire-gnd);}
@@ -321,7 +365,83 @@ body.editor {
     pointer-events: none;
 }
 
-@keyframe wire-shine {
+@keyframes wire-shine {
     from {stroke-dashoffset:64;}
     to {stroke-dashoffset:0;}
+}
+
+.wire-gap {
+    stroke: var(--surface);
+    stroke-width: 6;
+    stroke-linecap: square;
+    fill: none;
+}
+
+.wire-tip {
+    position: fixed;
+    pointer-events: none;
+    background: var(--surface);
+    color: var(--text);
+    border: 2px solid var(--border);
+    box-shadow: 3px 3px 0 var(--shadow);
+    padding: 8px 10px;
+    font-size: 12px;
+    line-height: 1.5;
+    max-width: 260px;
+    opacity: 0;
+    transition: opacity 0.12s;
+    z-index: 50;
+}
+
+.wire-tip.show {
+    opacity: 1;
+}
+
+.wire-tip strong {
+    display: block;
+    margin-bottom: 3px;
+}
+
+.wire-tip span {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.button-row + .button-row {
+    margin-top: 8px;
+}
+
+.button-row button {
+    white-space: nowrap;
+}
+
+.credit {
+    position: fixed;
+    bottom: 24px;
+    color: var(--muted);
+    font-size: 14px;
+}
+
+.icon-btn {
+    --press: 3px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--press) var(--press) 0 var(--shadow);
+    font-size: 13px;
+}
+
+.grid-overlay svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.grid-overlay line {
+    stroke: rgba(140, 140, 170, 0.45);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
 }

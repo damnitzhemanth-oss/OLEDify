@@ -75,3 +75,28 @@ a {
     color: var(--text);
     text-decoration: none;
 }
+
+@font-face {
+    font-family: "Press Start 2P";
+    src: url("/fonts/press-start-2p-v16-latin-regular.woff2") format("woff2");
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+html[data-font="pixel"] body,html[data-font="pixel"] button,html[data-font="pixel"] a,html[data-font="pixel"] h1,html[data-font="pixel"] h2,html[data-font="pixel"] h3 {
+    font-family: "Press Start 2P", ui-monospace, monospace;
+    font-size: 11px;
+    line-height: 1.8;
+    letter-spacing: 0;
+}
+
+html[data-font="pixel"] h1,html[data-font="pixel"] .brand {
+    font-size: 15px;
+}
+
+html[data-font="pixel"] button {
+    font-size: 9px;
+    padding: 8px 6px;
+}
+

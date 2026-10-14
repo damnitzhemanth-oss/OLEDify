@@ -16,17 +16,54 @@ const screenList = document.getElementById('screenList');
 const clearBtn = document.getElementById('clearBtn');
 const fillBtn = document.getElementById('fillBtn');
 const invertBtn = document.getElementById('invertBtn');
+const gridBtn = document.getElementById('gridBtn');
+const fontBtn = document.getElementById('fontBtn');
+const gridOverlay = document.getElementById('gridOverlay');
 
-const ZOOM = 4;
+const BASE_SCALE = 4;
+
+const stage = document.getElementById('stage');
+const world = document.getElementById('world');
+const screenWrap = document.querySelector('.screen-wrap');
+const gridSvg = document.getElementById('gridSvg');
+const fitBtn = document.getElementById('fitBtn');
 
 const state = {
     screenId: screens[0].id,
     boardId: 'uno',
     bitmaps: {},
+    grid: false,
+    font: 'mono',
 };
 
-function activeScreen () {
-    return screens.find(s=>s.id===state.screenId);
+const view = {
+    zoom: 1,
+    panX: 0,
+    panY: 0,
+};
+
+function applyView() {
+    world.style.transform = `translate(${view.panX}px, ${view.panY}px) scale(${view.zoom})`;
+    world.style.setProperty('--inv-zoom', 1 / view.zoom);
+}
+
+function fitView() {
+    const sw = stage.clientWidth;
+    const sh = stage.clientHeight;
+    const ww = screenWrap.offsetWidth;
+    const wh = screenWrap.offsetHeight;
+    if (!ww || !wh) return;
+
+    const pad = 60;
+    const z = Math.min((sw - pad) / ww, (sh - pad) / wh);
+    view.zoom = Math.max(0.15, Math.min(4, z));
+    view.panX = (sw - ww * view.zoom) / 2;
+    view.panY = (sh - wh * view.zoom) / 2;
+    applyView();
+}
+
+function activeScreen() {
+    return screens.find(s => s.id === state.screenId);
 }
 
 function activeBitmap() {
@@ -36,7 +73,6 @@ function activeBitmap() {
     }
     return state.bitmaps[s.id];
 }
-
 
 function restore() {
     const saved = storage.load();
@@ -71,17 +107,31 @@ function persist() {
     storage.save(payload);
 }
 
+function buildGrid(bmp) {
+    let lines = '';
+    for (let x = 0; x <= bmp.width; x++) {
+        lines += `<line x1="${x}" y1="0" x2="${x}" y2="${bmp.height}"/>`;
+    }
+    for (let y = 0; y <= bmp.height; y++) {
+        lines += `<line x1="0" y1="${y}" x2="${bmp.width}" y2="${y}"/>`;
+    }
+    gridSvg.setAttribute('viewBox', `0 0 ${bmp.width} ${bmp.height}`);
+   gridSvg.setAttribute('shape-rendering', 'crispEdges');
+    gridSvg.innerHTML = lines;
+}
+
 function render() {
     const s = activeScreen();
     const bmp = activeBitmap();
     const pins = pinoutFor(state.boardId);
     const board = boards[state.boardId];
 
-    canvas.style.width = s.width * ZOOM + 'px';
-    canvas.style.height = s.height * ZOOM + 'px';
+    canvas.style.width = s.width * BASE_SCALE + 'px';
+    canvas.style.height = s.height * BASE_SCALE + 'px';
 
     screenName.textContent = s.label;
     paint(canvas, bmp);
+    buildGrid(bmp);
 
     renderWires(document.getElementById('wires'), pins);
 
@@ -106,13 +156,14 @@ function render() {
 function setScreen(id) {
     state.screenId = id;
     render();
+    requestAnimationFrame(fitView);
     closePicker();
     scheduleSave();
 }
 
 function openPicker() {
     screenList.innerHTML = '';
-    for ( const s of screens) {
+    for (const s of screens) {
         const btn = document.createElement('button');
         btn.className = 'screen-option';
         btn.textContent = s.label;
@@ -127,7 +178,7 @@ function closePicker() {
     screenPicker.classList.remove('open');
 }
 
-pencil.addEventListener('click',openPicker);
+pencil.addEventListener('click', openPicker);
 
 screenPicker.addEventListener('click', (e) => {
     if (e.target === screenPicker) closePicker();
@@ -136,6 +187,7 @@ screenPicker.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') closePicker();
 });
+
 
 let drawing = false;
 let drawValue = 1;
@@ -150,47 +202,47 @@ function toGrid(e) {
     };
 }
 
-function plotLine(bmp,x0,y0,x1,y1,value) {
-    const dx = Math.abs(x1-x0);
-    const dy = -Math.abs(y1-y0);
+function plotLine(bmp, x0, y0, x1, y1, value) {
+    const dx = Math.abs(x1 - x0);
+    const dy = -Math.abs(y1 - y0);
     const sx = x0 < x1 ? 1 : -1;
     const sy = y0 < y1 ? 1 : -1;
     let err = dx + dy;
 
     while (true) {
-        setPixel(bmp,x0,y0,value);
+        setPixel(bmp, x0, y0, value);
         if (x0 === x1 && y0 === y1) break;
         const e2 = 2 * err;
-        if (e2 >= dy) {err += dy; x0 += sx;}
-        if (e2 <= dx) {err += dx; y0 += sy;}
+        if (e2 >= dy) { err += dy; x0 += sx; }
+        if (e2 <= dx) { err += dx; y0 += sy; }
     }
 }
 
 canvas.addEventListener('pointerdown', (e) => {
-    if (e.button !== 0) return;
+    if (e.button !== 0 || e.altKey) return;
     drawing = true;
     canvas.setPointerCapture(e.pointerId);
 
-    const {x,y} = toGrid(e);
+    const { x, y } = toGrid(e);
     const bmp = activeBitmap();
 
-    drawValue = getPixel(bmp,x,y) ? 0:1;
-    setPixel(bmp,x,y,drawValue);
+    drawValue = getPixel(bmp, x, y) ? 0 : 1;
+    setPixel(bmp, x, y, drawValue);
     lastX = x;
     lastY = y;
-    paint(canvas,bmp);
+    paint(canvas, bmp);
 });
 
 canvas.addEventListener('pointermove', (e) => {
     if (!drawing) return;
-    const {x,y} = toGrid(e);
-    if (x=== lastX && y=== lastY) return;
+    const { x, y } = toGrid(e);
+    if (x === lastX && y === lastY) return;
 
     const bmp = activeBitmap();
-    plotLine(bmp,lastX,lastY,x,y,drawValue);
+    plotLine(bmp, lastX, lastY, x, y, drawValue);
     lastX = x;
     lastY = y;
-    paint(canvas,bmp);
+    paint(canvas, bmp);
 });
 
 canvas.addEventListener('pointerup', (e) => {
@@ -199,6 +251,69 @@ canvas.addEventListener('pointerup', (e) => {
     scheduleSave();
 });
 
+canvas.addEventListener('pointercancel', () => {
+    drawing = false;
+    scheduleSave();
+});
+
+
+stage.addEventListener('wheel', (e) => {
+    e.preventDefault();
+
+    const rect = stage.getBoundingClientRect();
+    const mx = e.clientX - rect.left;
+    const my = e.clientY - rect.top;
+
+    const factor = e.deltaY < 0 ? 1.12 : 1 / 1.12;
+    const next = Math.max(0.15, Math.min(20, view.zoom * factor));
+
+    const wx = (mx - view.panX) / view.zoom;
+    const wy = (my - view.panY) / view.zoom;
+
+    view.zoom = next;
+    view.panX = mx - wx * next;
+    view.panY = my - wy * next;
+    applyView();
+}, { passive: false });
+
+let panning = false;
+let panStartX = 0;
+let panStartY = 0;
+let panOriginX = 0;
+let panOriginY = 0;
+
+stage.addEventListener('pointerdown', (e) => {
+    const isMiddle = e.button === 1;
+    const isAltLeft = e.button === 0 && e.altKey;
+    if (!isMiddle && !isAltLeft) return;
+
+    e.preventDefault();
+    panning = true;
+    stage.setPointerCapture(e.pointerId);
+    panStartX = e.clientX;
+    panStartY = e.clientY;
+    panOriginX = view.panX;
+    panOriginY = view.panY;
+});
+
+stage.addEventListener('pointermove', (e) => {
+    if (!panning) return;
+    view.panX = panOriginX + (e.clientX - panStartX);
+    view.panY = panOriginY + (e.clientY - panStartY);
+    applyView();
+});
+
+stage.addEventListener('pointerup', (e) => {
+    if (!panning) return;
+    panning = false;
+    stage.releasePointerCapture(e.pointerId);
+});
+
+stage.addEventListener('dblclick', (e) => {
+    stage.addEventListener('dblclick', fitView);
+});
+
+
 clearBtn.addEventListener('click', () => {
     const bmp = activeBitmap();
     clearBitmap(bmp);
@@ -206,22 +321,54 @@ clearBtn.addEventListener('click', () => {
     scheduleSave();
 });
 
-fillBtn.addEventListener('click', () =>{
+fillBtn.addEventListener('click', () => {
     const bmp = activeBitmap();
     bmp.data.fill(1);
-    paint(canvas,bmp);
+    paint(canvas, bmp);
     scheduleSave();
 });
 
 invertBtn.addEventListener('click', () => {
     const bmp = activeBitmap();
     for (let i = 0; i < bmp.data.length; i++) {
-        bmp.data[i] = bmp.data[i] ? 0: 1;
+        bmp.data[i] = bmp.data[i] ? 0 : 1;
     }
-
-    paint(canvas,bmp);
+    paint(canvas, bmp);
     scheduleSave();
 });
 
+state.grid = localStorage.getItem('oledify-grid') === '1';
+gridBtn.textContent = state.grid ? 'Grid on' : 'Grid off';
+gridOverlay.classList.toggle('on', state.grid);
+
+gridBtn.addEventListener('click', () => {
+    state.grid = !state.grid;
+    gridBtn.textContent = state.grid ? 'Grid on' : 'Grid off';
+    gridOverlay.classList.toggle('on', state.grid);
+    localStorage.setItem('oledify-grid', state.grid ? '1' : '0');
+});
+
+function applyFont(font) {
+    state.font = font;
+    document.documentElement.dataset.font = font === 'pixel' ? 'pixel' : '';
+    fontBtn.textContent = font === 'pixel' ? 'F*' : 'F';
+    localStorage.setItem('oledify-font', font);
+}
+
+applyFont(localStorage.getItem('oledify-font') || 'mono');
+
+fontBtn.addEventListener('click', () => {
+    applyFont(state.font === 'mono' ? 'pixel' : 'mono');
+});
+
+fitBtn.addEventListener('click', fitView);
+
+
 restore();
 render();
+requestAnimationFrame(fitView);
+
+window.addEventListener('resize', () => {
+    if (!stage.clientWidth || !stage.clientHeight) return;
+    fitView();
+});
