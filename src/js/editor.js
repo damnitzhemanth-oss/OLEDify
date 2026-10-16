@@ -19,6 +19,14 @@ const invertBtn = document.getElementById('invertBtn');
 const gridBtn = document.getElementById('gridBtn');
 const fontBtn = document.getElementById('fontBtn');
 const gridOverlay = document.getElementById('gridOverlay');
+const workspace =  document.querySelector('.workspace');
+const leftPanelEl = document.getElementById('leftPanelEl');
+const rightPanelEl = document.getElementById('rightPanelEl');
+const canvasToggle = document.getElementById('canvasToggle');
+const setupToggle = document.getElementById('setupToggle');
+const topbarRight = document.getElementById('topbarRight');
+const hamburger = document.getElementById('hamburger');
+
 
 const BASE_SCALE = 4;
 
@@ -61,6 +69,35 @@ function fitView() {
     view.panY = (sh - wh * view.zoom) / 2;
     applyView();
 }
+
+const ui = {
+    leftOpen: true,
+    rightOpen: true,
+};
+
+function applyUI() {
+    workspace.classList.toggle('left-hidden', !ui.leftOpen);
+    workspace.classList.toggle('right-hidden', !ui.rightOpen);
+    canvasToggle.classList.toggle('active', ui.leftOpen);
+    setupToggle.classList.toggle('active', ui.rightOpen);
+}
+
+function toggleCanvas() {
+    ui.leftOpen = !ui.leftOpen;
+    applyUI();
+}
+
+function toggleSetup() {
+    ui.rightOpen = !ui.rightOpen;
+    applyUI();
+}
+
+canvasToggle.addEventListener('click', toggleCanvas);
+setupToggle.addEventListener('click', toggleSetup);
+document.getElementById('leftClose').addEventListener('click', toggleCanvas);
+document.getElementById('rightClose').addEventListener('click', toggleSetup);
+
+applyUI();
 
 function activeScreen() {
     return screens.find(s => s.id === state.screenId);
@@ -218,6 +255,8 @@ function plotLine(bmp, x0, y0, x1, y1, value) {
     }
 }
 
+
+
 canvas.addEventListener('pointerdown', (e) => {
     if (e.button !== 0 || e.altKey) return;
     drawing = true;
@@ -362,6 +401,24 @@ fontBtn.addEventListener('click', () => {
 });
 
 fitBtn.addEventListener('click', fitView);
+
+hamburger.addEventListener('click', () => {
+    topbarRight.classList.toggle('menu-open');
+});
+
+document.addEventListener('click', (e) => {
+    if (!topbarRight.classList.contains('menu-open')) return;
+    if (topbarRight.contains(e.target)) return;
+    topbarRight.classList.remove('menu-open');
+});
+
+document.querySelectorAll('.button-cluster button').forEach(btn => {
+    btn.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            topbarRight.classList.remove('menu-open');
+        }
+    });
+});
 
 
 restore();

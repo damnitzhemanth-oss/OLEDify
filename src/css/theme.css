@@ -17,13 +17,13 @@
 [data-theme="dark"] {
   --bg: #0d0d12;
   --surface: #1a1a22;
-  --border: #d8d8e0;
+  --border: #ffffff;
   --text: #e8e8e8;
   --muted: #8a8a96;
   --accent: #ffb000;
-  --shadow: rgba(255, 0, 0, 0.884);
+  --shadow: rgba(153, 153, 153, 0.884);
   --bezel: #0a84ff;
-  --bezel-border: #8a8a9e;
+  --bezel-border: #003d99;
   --wire-gnd: #c8c8d0;
   --wire-vcc: #ff6b6b;
   --wire-scl: #ffb000;

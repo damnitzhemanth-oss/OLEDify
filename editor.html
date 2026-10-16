@@ -17,94 +17,115 @@
 
 <body class="editor">
 
-    <header class="topbar">
-        <a class="brand" href="/">OLEDify</a>
-        <div class="topbar-right">
-           <span class="screen-name" id="screenName">SSD1306 128x64</span>
-              <button class="icon-btn" id="fontBtn" aria-label="toggle pixel font">F</button>
-           <button class="theme-toggle" id="themeToggle" aria-label="toggle theme">
-              <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-               <circle cx="8" cy="8" r="3" fill="currentColor"/>
-               <g stroke="currentColor" stroke-width="1.5" stroke-linecap="square">
-                <line x1="8" y1="0.5" x2="8" y2="2.5"/>
-                <line x1="8" y1="13.5" x2="8" y2="15.5"/>
-                <line x1="0.5" y1="8" x2="2.5" y2="8"/>
-                <line x1="13.5" y1="8" x2="15.5" y2="8"/>
-                <line x1="2.7" y1="2.7" x2="4.1" y2="4.1"/>
-                <line x1="11.9" y1="11.9" x2="13.3" y2="13.3"/>
-                <line x1="2.7" y1="13.3" x2="4.1" y2="11.9"/>
-                <line x1="11.9" y1="4.1" x2="13.3" y2="2.7"/>
-               </g>
-             </svg>
-             <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
-                <path d="M11 10 A5 5 0 0 1 6 2 A6 6 0 1 0 14 10 A5 5 0 0 1 11 10 Z" fill="currentColor"/>
-             </svg>
-           </button>
-        </div>
-    </header>
+<header class="topbar">
+    <a class="brand" href="/">OLEDify</a>
+    <div class="topbar-right" id="topbarRight">
+       <span class="screen-name" id="screenName">SSD1306 128x64</span>
 
-    <main class="workspace">
+       <button class="hamburger" id="hamburger" aria-label="menu">
+         <svg width="18" height="14" viewBox="0 0 18 14" aria-hidden="true">
+           <g stroke="currentColor" stroke-width="2" stroke-linecap="square">
+             <line x1="1" y1="1" x2="17" y2="1"/>
+             <line x1="1" y1="7" x2="17" y2="7"/>
+             <line x1="1" y1="13" x2="17" y2="13"/>
+           </g>
+         </svg>
+       </button>
 
-       <aside class="panel left">
-          <h2>Canvas</h2>
-          <div class="panel-body" id="leftPanel">
-<div class="button-row">
-  <button id="clearBtn">Clear</button>
-  <button id="fillBtn">Fill</button>
-  <button id="invertBtn">Invert</button>
-</div>
-<div class="button-row">
-  <button id="gridBtn">Grid off</button>
-  <button id="fitBtn">Fit</button>
-</div>
-         </div>
-       </aside>
+       <div class="button-cluster">
+         <button class="icon-btn active" id="canvasToggle" aria-label="toggle canvas panel">C</button>
+         <button class="icon-btn active" id="setupToggle" aria-label="toggle setup panel">S</button>
+         <button class="icon-btn" id="fontBtn" aria-label="toggle pixel font">F</button>
+         <button class="theme-toggle" id="themeToggle" aria-label="toggle theme">
+            <svg class="icon-sun" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+             <circle cx="8" cy="8" r="3" fill="currentColor"/>
+             <g stroke="currentColor" stroke-width="1.5" stroke-linecap="square">
+              <line x1="8" y1="0.5" x2="8" y2="2.5"/>
+              <line x1="8" y1="13.5" x2="8" y2="15.5"/>
+              <line x1="0.5" y1="8" x2="2.5" y2="8"/>
+              <line x1="13.5" y1="8" x2="15.5" y2="8"/>
+              <line x1="2.7" y1="2.7" x2="4.1" y2="4.1"/>
+              <line x1="11.9" y1="11.9" x2="13.3" y2="13.3"/>
+              <line x1="2.7" y1="13.3" x2="4.1" y2="11.9"/>
+              <line x1="11.9" y1="4.1" x2="13.3" y2="2.7"/>
+             </g>
+           </svg>
+           <svg class="icon-moon" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+              <path d="M11 10 A5 5 0 0 1 6 2 A6 6 0 1 0 14 10 A5 5 0 0 1 11 10 Z" fill="currentColor"/>
+           </svg>
+         </button>
+       </div>
+    </div>
+</header>
 
-<section class="stage" id="stage">
-  <div class="world" id="world">
-    <div class="screen-wrap">
-      <div class="wires" id="wires"></div>
-      <div class="bezel">
-        <div class="glass">
-          <canvas id="screen" width="512" height="256"></canvas>
-          <div class="grid-overlay" id="gridOverlay">
-            <svg id="gridSvg" width="100%" height="100%"></svg>
+<main class="workspace">
+
+   <aside class="panel left" id="leftPanelEl">
+      <button class="panel-close" id="leftClose" aria-label="close panel">&times;</button>
+      <h2>Canvas</h2>
+      <div class="panel-body">
+        <div class="panel-content">
+          <div class="button-row">
+            <button id="clearBtn">Clear</button>
+            <button id="fillBtn">Fill</button>
+            <button id="invertBtn">Invert</button>
+          </div>
+          <div class="button-row">
+            <button id="gridBtn">Grid off</button>
+            <button id="fitBtn">Fit</button>
           </div>
         </div>
-        <button class="pencil" id="pencil" aria-label="change screen">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
-            <path d="M10 2 L12 4 L4 12 L1 13 L2 10 Z"/>
-          </svg>
-        </button>
       </div>
-    </div>
-  </div>
-</section>
-    <aside class="panel right">
-  <h2>Setup</h2>
-  <div class="panel-body" id="rightPanel">
-    <div class="setup-section">
-      <div class="setup-label">Board</div>
-      <div class="setup-value" id="boardName">Arduino Uno</div>
-    </div>
-    <div class="setup-section">
-      <div class="setup-label">Display</div>
-      <div class="setup-value" id="displayName">SSD1306 128x64</div>
-      <div class="setup-hint" id="displayBus">I2C &middot; 4 wires</div>
-    </div>
-    <div class="setup-section">
-      <div class="setup-label">Connections</div>
-      <div class="pin-list" id="pinList"></div>
-    </div>
-  </div>
-    </aside>
-    </main>
+   </aside>
 
-    <button class="rocket" id="rocket" aria-label="reveal microcontroller">
-      <span class="rocket-body">🚀</span>
-    </button>
+   <section class="stage" id="stage">
+     <div class="world" id="world">
+       <div class="screen-wrap">
+         <div class="wires" id="wires"></div>
+         <div class="bezel">
+           <div class="glass">
+             <canvas id="screen" width="512" height="256"></canvas>
+             <div class="grid-overlay" id="gridOverlay">
+               <svg id="gridSvg" width="100%" height="100%"></svg>
+             </div>
+           </div>
+           <button class="pencil" id="pencil" aria-label="change screen">
+             <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" aria-hidden="true">
+               <path d="M10 2 L12 4 L4 12 L1 13 L2 10 Z"/>
+             </svg>
+           </button>
+         </div>
+       </div>
+     </div>
+   </section>
 
-    <script type="module" src="/src/js/editor.js"></script>
+   <aside class="panel right" id="rightPanelEl">
+      <button class="panel-close" id="rightClose" aria-label="close panel">&times;</button>
+      <h2>Setup</h2>
+      <div class="panel-body">
+        <div class="panel-content">
+          <div class="setup-section">
+            <div class="setup-label">Board</div>
+            <div class="setup-value" id="boardName">Arduino Uno</div>
+          </div>
+          <div class="setup-section">
+            <div class="setup-label">Display</div>
+            <div class="setup-value" id="displayName">SSD1306 128x64</div>
+            <div class="setup-hint" id="displayBus">I2C &middot; 4 wires</div>
+          </div>
+          <div class="setup-section">
+            <div class="setup-label">Connections</div>
+            <div class="pin-list" id="pinList"></div>
+          </div>
+        </div>
+      </div>
+   </aside>
+
+</main>
+
+<button class="rocket" id="rocket" aria-label="reveal microcontroller">
+  <span class="rocket-body">🚀</span>
+</button>
 
 <div class="overlay" id="screenPicker">
   <div class="overlay-card">
@@ -112,5 +133,8 @@
     <div class="screen-list" id="screenList"></div>
   </div>
 </div>
+
+<script type="module" src="/src/js/editor.js"></script>
+
 </body>
 </html>
