@@ -3,28 +3,14 @@ body.editor {
     display: flex;
     flex-direction: column;
 }
-.topbar {
-    position: relative;
-    z-index: 2;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 12px 20px;
-    border-bottom: 2px solid var(--border);
-    background: var(--surface);
-}
+
 
 .brand {
     font-size: 20px;
     letter-spacing: 2px;
     font-weight: 700;
 }
-
-.topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-}
+  
 
 .screen-name {
     color: var(--muted);
@@ -495,6 +481,85 @@ canvas,
     justify-content: center;
 }
 
+.topbar {
+    position: relative;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 2px solid var(--border);
+    background: var(--surface);
+}
+
+.topbar-right {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.hamburger {
+    --press: 3px;
+    display: flex;
+    width: 36px;
+    height: 32px;
+    padding: 0;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--press) var(--press) 0 var(--shadow);
+}
+
+.button-cluster {
+    position: absolute;
+    top: calc(100% + 10px);
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    padding: 10px;
+    background: var(--surface);
+    border: 2px solid var(--border);
+    box-shadow: 4px 4px 0 var(--shadow);
+    min-width: 140px;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-6px);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
+.topbar-right.menu-open .button-cluster {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+}
+
+.button-cluster .icon-btn,
+.button-cluster .theme-toggle {
+    width: 100%;
+    min-width: 0;
+    height: 38px;
+    padding: 0 14px;
+    font-size: 13px;
+    justify-content: flex-start;
+    box-shadow: 2px 2px 0 var(--shadow);
+}
+
+.button-cluster .theme-toggle {
+    justify-content: center;
+}
+
+.button-cluster .icon-btn.active::after {
+    content: "✓";
+    margin-left: auto;
+    font-size: 11px;
+}
+
+.button-cluster .theme-toggle {
+    justify-content: center;
+}
+
 @media (max-width: 768px) {
     .topbar {
         padding: 10px 14px;
@@ -511,13 +576,7 @@ canvas,
     .workspace {
         grid-template-columns: 1fr;
         padding: 12px;
-        gap:0;
-    }
-
-    .workspace.left-hidden .panel.left,
-    .workspace.workspace.right-hidden .panel.right {
-        opacity: 1;
-        pointer-events: auto;
+        gap: 0;
     }
 
     .panel {
@@ -531,40 +590,16 @@ canvas,
 
     .panel.left {
         left: 0;
-        transform: translateX(-105%);
+        transform: translateX(-105%)
     }
 
     .panel.right {
         right: 0;
-        transform: translateX(105%);
+        transform: translateX(105%)
     }
 
     .panel.mobile-open {
         transform: translateX(0);
     }
 
-    .panel-close {
-        display: flex;
-    }
-
-    .panel h2 {
-        padding-right: 44px;
-    }
-}
-
-.hamburger {
-    --press: 3px;
-    display: none;
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    align-items: center;
-    justify-content: center;
-    box-shadow: var(--press) var(--press) 0 var(--shadow);
-}
-
-.button-cluster {
-    display: flex;
-    align-items: center;
-    gap: 16px;
 }
